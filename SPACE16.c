@@ -1,7 +1,7 @@
 /*
  * @Author: Yimin Li 2111289@tongji.edu.com
  * @Date: 2024-09-30 22:23:22
- * @LastEditTime: 2025-04-21 12:21:53
+ * @LastEditTime: 2025-04-21 16:46:11
  * @Description: Implementation and Test Cases of SPACE8.
  *
  * Copyright (c) 2024 by Tongji University, All Rights Reserved.
@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <x86intrin.h>
-#include "TableGen.h"
+#include "TestFramework.h"
 
 // lookup table
 unsigned int F[1 << 16][7];

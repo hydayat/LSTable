@@ -1,7 +1,7 @@
 /*
  * @Author: Yimin Li 2111289@tongji.edu.com
  * @Date: 2024-09-30 15:30:55
- * @LastEditTime: 2025-04-21 12:06:02
+ * @LastEditTime: 2025-04-21 16:43:50
  * @Description: Implementation of TableGen
  *
  * Copyright (c) 2024 by Tongji University, All Rights Reserved.
@@ -91,15 +91,4 @@ void table_gen(uint16_t (*sboxes)[1 << 16], uint16_t (*inv_sboxes)[1 << 16], int
       inv_sboxes[i][sboxes[i][w]] = w;
     }
   }
-}
-
-/**
- * @description: calculate the time elapsed
- * @param {struct timespec} start: start point
- * @param {struct timespec} end: end point
- * @return {double}: time elapsed (in seconds)
- */
-double time_sec(struct timespec start, struct timespec end)
-{
-  return difftime(end.tv_sec, start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1000000000.0;
 }

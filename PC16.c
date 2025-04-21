@@ -1,7 +1,7 @@
 /*
  * @Author: Yimin Li 2111289@tongji.edu.com
  * @Date: 2024-09-30 22:23:32
- * @LastEditTime: 2025-04-21 12:29:12
+ * @LastEditTime: 2025-04-21 16:46:28
  * @Description: Implementation and Test Cases of PC16.
  *
  * Copyright (c) 2024 by Tongji University, All Rights Reserved.
@@ -14,7 +14,7 @@
 #include <x86intrin.h>
 #include <wmmintrin.h>
 #include "aes_software/aes.h"
-#include "TableGen.h"
+#include "TestFramework.h"
 
 // round keys for aes encryption
 __m128i round_keys[11];
