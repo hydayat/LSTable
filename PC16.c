@@ -1,7 +1,7 @@
 /*
  * @Author: Yimin Li 2111289@tongji.edu.com
  * @Date: 2024-09-30 22:23:32
- * @LastEditTime: 2024-10-08 15:00:27
+ * @LastEditTime: 2025-04-21 12:29:12
  * @Description: Implementation and Test Cases of PC16.
  *
  * Copyright (c) 2024 by Tongji University, All Rights Reserved.
@@ -14,6 +14,7 @@
 #include <x86intrin.h>
 #include <wmmintrin.h>
 #include "aes_software/aes.h"
+#include "TableGen.h"
 
 // round keys for aes encryption
 __m128i round_keys[11];
@@ -46,7 +47,7 @@ unsigned char T[4][1 << 16][8];
  * @description: generate the lookup table of PC16
  * @return {*}
  */
-void table_gen()
+void gen()
 {
     srand(time(NULL));
     for (int i = 0; i < 4; i++)
@@ -113,7 +114,7 @@ void encrypt(unsigned char *in,
 void main(void)
 {
     // table generation
-    table_gen();
+    gen();
 
     // randomly init aes key
     for (int i = 0; i <= 10; i++)
@@ -121,15 +122,25 @@ void main(void)
         round_keys[i] = _mm_set_epi32(rand(), rand(), rand(), rand());
     }
 
-    // test encryption
-    clock_t c_start, c_end;
+    // prepare plaintext
+    struct timespec start, end;
     int num_repeat = 1024 * 1024;
-    unsigned char *plaintext = malloc(16 * sizeof(unsigned char) * num_repeat);
-    unsigned char *ciphertext = malloc(16 * sizeof(unsigned char) * num_repeat);
-    c_start = clock();
+    size_t data_len = 16 * sizeof(unsigned char) * num_repeat;
+    unsigned char *plaintext = malloc(data_len);
+    unsigned char *ciphertext = malloc(data_len);
+    srand(time(NULL));
+    for (int i = 0; i < data_len / sizeof(int); i++)
+    {
+        ((int *)plaintext)[i] = rand();
+    }
+
+    // test encryption
+    clock_gettime(CLOCK_MONOTONIC, &start);
     for (long i = 0; i < num_repeat; i++)
+    {
         encrypt(plaintext + i * 16, ciphertext + i * 16);
-    c_end = clock();
-    double time_use = (double)(c_end - c_start) / CLOCKS_PER_SEC;
+    }
+    clock_gettime(CLOCK_MONOTONIC, &end);
+    double time_use = time_sec(start, end);
     printf("PC16 throught(MB/s): %2f\n", 16 * num_repeat / 1024 / 1024 / time_use);
 }

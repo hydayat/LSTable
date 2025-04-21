@@ -1,7 +1,7 @@
 /*
  * @Author: Yimin Li 2111289@tongji.edu.com
  * @Date: 2024-09-30 11:40:27
- * @LastEditTime: 2024-09-30 22:44:06
+ * @LastEditTime: 2025-04-21 12:12:27
  * @Description: Implementation and Test Cases of LSTable-(12,R).
  *
  * Copyright (c) 2024 by Tongji University, All Rights Reserved.
@@ -68,34 +68,42 @@ void encrypt(uint16_t *in, uint16_t *out, int num_r)
  */
 void main()
 {
-    clock_t c_start, c_end;
+    struct timespec start, end;
     double time_use;
     int num_repeat_tg = 10, num_repeat_enc = 1024 * 1024;
 
     // test table generation
-    c_start = clock();
+    clock_gettime(CLOCK_MONOTONIC, &start);
     for (int i = 0; i < num_repeat_tg; i++)
     {
         table_gen(sboxes, inv_sboxes, 12);
     }
-    c_end = clock();
-    time_use = (double)(c_end - c_start) / CLOCKS_PER_SEC;
+    clock_gettime(CLOCK_MONOTONIC, &end);
+    time_use = time_sec(start, end);
     printf("LSTable-(12,R) table generation time(s): %2f\n", time_use / num_repeat_tg);
 
+    // prepare plaintext
+    size_t data_len = 12 * sizeof(uint16_t) * num_repeat_enc;
+    uint16_t *plaintext = malloc(data_len);
+    uint16_t *ciphertext = malloc(data_len);
+    srand(time(NULL));
+    for (int i = 0; i < data_len / sizeof(int); i++)
+    {
+        ((int *)plaintext)[i] = rand();
+    }
+
     // test encryption
-    uint16_t *plaintext = malloc(12 * sizeof(uint16_t) * num_repeat_enc);
-    uint16_t *ciphertext = malloc(12 * sizeof(uint16_t) * num_repeat_enc);
     for (int r = 0; r <= 4; r++)
     {
         int num_r = r * 2 + 8;
-        c_start = clock();
+        clock_gettime(CLOCK_MONOTONIC, &start);
         for (int i = 0; i < num_repeat_enc; i++)
         {
             encrypt(plaintext + i * 12, ciphertext + i * 12, num_r);
         }
-        c_end = clock();
+        clock_gettime(CLOCK_MONOTONIC, &end);
         int a = rand() % num_repeat_enc;
-        time_use = (double)(c_end - c_start) / CLOCKS_PER_SEC;
+        time_use = time_sec(start, end);
         printf("LSTable-(12,%d) throught(MB/s): %2f\n", num_r, 24 * num_repeat_enc / 1024 / 1024 / time_use);
     }
 }
