@@ -1,4 +1,27 @@
 /*
+ *                   ___====-_  _-====___
+ *             _--^^^#####//      \\#####^^^--_
+ *          _-^##########// (    ) \\##########^-_
+ *         -############//  |\^^/|  \\############-
+ *       _/############//   (@::@)   \############\_
+ *      /#############((     \\//     ))#############\
+ *     -###############\\    (oo)    //###############-
+ *    -#################\\  / VV \  //#################-
+ *   -###################\\/      \//###################-
+ *  _#/|##########/\######(   /\   )######/\##########|\#_
+ *  |/ |#/\#/\#/\/  \#/\##\  |  |  /##/\#/  \/\#/\#/\#| \|
+ *  `  |/  V  V  `   V  \#\| |  | |/#/  V   '  V  V  \|  '
+ *     `   `  `      `   / | |  | | \   '      '  '   '
+ *                      (  | |  | |  )
+ *                     __\ | |  | | /__
+ *                    (vvv(VVV)(VVV)vvv)
+ *
+ *      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *
+ *                神兽保佑            永无BUG
+ */
+
+/*
  * Advanced Encryption Standard
  * @author Dani Huertas
  * @email huertas.dani@gmail.com
@@ -13,10 +36,10 @@
  * Multiplication in GF(2^8)
  * http://en.wikipedia.org/wiki/Finite_field_arithmetic
  * Irreducible polynomial m(x) = x8 + x4 + x3 + x + 1
- * 
+ *
  * NOTE: we are using the look up table instead of the (slower) gmult function
  */
-#define gmult(a,b) gmult_aes[256*a + b]
+#define gmult(a, b) gmult_aes[256 * a + b]
 
 uint8_t *aes_init(size_t key_size);
 

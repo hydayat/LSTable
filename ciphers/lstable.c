@@ -1,8 +1,8 @@
 /*
  * @Author: Yimin Li 2111289@tongji.edu.com
  * @Date: 2024-09-30 11:33:30
- * @LastEditTime: 2025-04-22 12:38:41
- * @Description: Implementation and Test Cases of LSTable-(8,R).
+ * @LastEditTime: 2025-04-22 14:46:44
+ * @Description: Implementation of LSTable.
  *
  * Copyright (c) 2024 by Tongji University, All Rights Reserved.
  */
@@ -107,6 +107,11 @@ void lstable_table_gen()
     }
 }
 
+/**
+ * @description: diffusion layer of LSTable-(8,R)
+ * @param {__m128i} in: state
+ * @return {*}
+ */
 void diffuse_8(uint16_t *in)
 {
     uint16_t out[8];
@@ -121,6 +126,11 @@ void diffuse_8(uint16_t *in)
     memcpy(in, out, 16);
 }
 
+/**
+ * @description: diffusion layer of LSTable-(12,R)
+ * @param {__m128i} in: state
+ * @return {*}
+ */
 void diffuse_12(uint16_t *in)
 {
     uint16_t out[12];
@@ -139,6 +149,11 @@ void diffuse_12(uint16_t *in)
     memcpy(in, out, 24);
 }
 
+/**
+ * @description: diffusion layer of LSTable-(16,R)
+ * @param {__m128i} in: state
+ * @return {*}
+ */
 void diffuse_16(uint16_t *in)
 {
     uint16_t out[16];
@@ -161,6 +176,11 @@ void diffuse_16(uint16_t *in)
     memcpy(in, out, 32);
 }
 
+/**
+ * @description: confusion layer of LSTable
+ * @param {__m128i} in: state
+ * @return {*}
+ */
 void confuse(uint16_t *in, uint16_t (*boxes)[1 << 16])
 {
     for (int i = 0; i < param_l; i++)
@@ -169,6 +189,12 @@ void confuse(uint16_t *in, uint16_t (*boxes)[1 << 16])
     }
 }
 
+/**
+ * @brief initialize LSTable's parameters
+ *
+ * @param l : length of LBox
+ * @param r : round number
+ */
 void init(int l, int r)
 {
     param_l = l;

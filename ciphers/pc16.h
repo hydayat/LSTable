@@ -1,3 +1,11 @@
+/*
+ * @Author: Yimin Li 2111289@tongji.edu.com
+ * @Date: 2025-04-22 12:27:25
+ * @LastEditTime: 2025-04-22 14:27:19
+ * @Description:
+ *
+ * Copyright (c) 2025 by Tongji University, All Rights Reserved.
+ */
 #pragma once
 #include <stdint.h>
 

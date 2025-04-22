@@ -1,7 +1,7 @@
 /*
  * @Author: Yimin Li 2111289@tongji.edu.com
  * @Date: 2025-04-21 16:40:16
- * @LastEditTime: 2025-04-22 12:03:46
+ * @LastEditTime: 2025-04-22 14:53:32
  * @Description: test framework
  *
  * Copyright (c) 2025 by Tongji University, All Rights Reserved.
@@ -23,6 +23,13 @@ double time_sec(struct timespec start, struct timespec end)
     return difftime(end.tv_sec, start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1000000000.0;
 }
 
+/**
+ * @brief print an array byte by byte
+ *
+ * @param arr: byte array
+ * @param len: length of array
+ * @return * void
+ */
 void print_array(uint8_t *arr, int len)
 {
     for (int i = 0; i < len; i++)
@@ -32,6 +39,13 @@ void print_array(uint8_t *arr, int len)
     printf("\n");
 }
 
+/**
+ * @brief test the execution time of table generation algorithm
+ *
+ * @param repeat : number of repetitions
+ * @param table_gen : table generation algorithm for test
+ * @return double : execution time in seconds
+ */
 double test_tablegen_time(int repeat, void (*table_gen)())
 {
     struct timespec start, end;
@@ -45,6 +59,14 @@ double test_tablegen_time(int repeat, void (*table_gen)())
     return time_sec(start, end) / repeat;
 }
 
+/**
+ * @brief test functionality of encryption and decryption
+ *
+ * @param block_len : length of a block
+ * @param enc : encryption algorithm
+ * @param dec : decryption algorithm
+ * @return int : 0 for fail and 1 for success
+ */
 int test_func(int block_len,
               void (*enc)(uint8_t *, uint8_t *),
               void (*dec)(uint8_t *, uint8_t *))
@@ -87,6 +109,14 @@ int test_func(int block_len,
     return 1;
 }
 
+/**
+ * @brief test the throughput of encryption algorithm
+ *
+ * @param block_len : length of a block
+ * @param repeat : number of repetitions
+ * @param enc : encryption algorithm
+ * @return double : throughput (MB/s)
+ */
 double test_enc_throughput(int block_len, int repeat,
                            void (*enc)(uint8_t *, uint8_t *))
 {

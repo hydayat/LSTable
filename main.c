@@ -1,7 +1,7 @@
 /*
  * @Author: Yimin Li 2111289@tongji.edu.com
  * @Date: 2025-04-22 11:40:19
- * @LastEditTime: 2025-04-22 13:48:43
+ * @LastEditTime: 2025-04-22 14:55:09
  * @Description:
  *
  * Copyright (c) 2025 by Tongji University, All Rights Reserved.
@@ -12,6 +12,10 @@
 #include "ciphers/space16.h"
 #include "test/test_framework.h"
 
+/**
+ * @description: evaluate efficiency and functionality of LSTable
+ * @return {*}
+ */
 void test_lstable()
 {
     // test configure
