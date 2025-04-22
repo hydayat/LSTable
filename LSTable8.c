@@ -1,7 +1,7 @@
 /*
  * @Author: Yimin Li 2111289@tongji.edu.com
  * @Date: 2024-09-30 11:33:30
- * @LastEditTime: 2025-04-21 17:35:29
+ * @LastEditTime: 2025-04-21 23:47:47
  * @Description: Implementation and Test Cases of LSTable-(8,R).
  *
  * Copyright (c) 2024 by Tongji University, All Rights Reserved.
@@ -77,74 +77,19 @@ void decrypt(uint16_t *in, uint16_t *out, int num_r)
 }
 
 /**
- * @description: evaluate efficiency of LSTable-(8,R)
+ * @description: evaluate efficiency and functionality of LSTable-(8,R)
  * @return {*}
  */
 void main()
 {
-    struct timespec start, end;
-    double time_use;
     int num_repeat_tg = 10, num_repeat_enc = 1024 * 1024;
-    srand(time(NULL));
 
-    // test table generation
-    clock_gettime(CLOCK_MONOTONIC, &start);
-    for (int i = 0; i < num_repeat_tg; i++)
-    {
-        table_gen(sboxes, inv_sboxes, 8);
-    }
-    clock_gettime(CLOCK_MONOTONIC, &end);
-    time_use = time_sec(start, end);
-    printf("LSTable-(8,R) table generation time(s): %2f\n", time_use / num_repeat_tg);
+    // test throughput of table generation
+    test_lstable_tablegen_throughput(sboxes, inv_sboxes, 8, num_repeat_tg);
 
     // test functionality
-    printf("Functionality test: \n");
-    uint16_t block[8], encrypted_block[8], decrypted_block[8];
-    for (int i = 0; i < 8; i++)
-    {
-        block[i] = rand();
-    }
-    print_array(block, 8);
-    encrypt(block, encrypted_block, 24);
-    print_array(encrypted_block, 8);
-    decrypt(encrypted_block, decrypted_block, 24);
-    print_array(decrypted_block, 8);
-    int pass = 1;
-    for (int i = 0; i < 8; i++)
-    {
-        if (block[i] != decrypted_block[i])
-        {
-            pass = 0;
-            printf("Fail.\n");
-            break;
-        }
-    }
-    if (pass == 1)
-    {
-        printf("Success.\n");
-    }
+    test_lstable_func(8, 24, encrypt, decrypt);
 
-    // prepare plaintext
-    size_t data_len = 8 * sizeof(uint16_t) * num_repeat_enc;
-    uint16_t *plaintext = malloc(data_len);
-    uint16_t *ciphertext = malloc(data_len);
-    for (int i = 0; i < data_len / sizeof(int); i++)
-    {
-        ((int *)plaintext)[i] = rand();
-    }
-
-    // test encryption
-    for (int r = 0; r <= 6; r++)
-    {
-        int num_r = r * 2 + 12;
-        clock_gettime(CLOCK_MONOTONIC, &start);
-        for (int i = 0; i < num_repeat_enc; i++)
-        {
-            encrypt(plaintext + i * 8, ciphertext + i * 8, num_r);
-        }
-        clock_gettime(CLOCK_MONOTONIC, &end);
-        int a = rand() % num_repeat_enc;
-        time_use = time_sec(start, end);
-        printf("LSTable-(8,%d) throught(MB/s): %2f\n", num_r, 16 * num_repeat_enc / 1024 / 1024 / time_use);
-    }
+    // test throughput of encryption
+    test_lstable_enc_throughput(8, 12, 24, num_repeat_enc, encrypt);
 }
