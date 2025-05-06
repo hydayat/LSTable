@@ -10,7 +10,7 @@
 
 ## How to run the code
 
-1. Run `git clone` and download this project to the local environment.
+1. Run `git clone` and download this project to the local Linux environment.
 2. Run the command `make main` in the root directory. If success, `main` will be created.
 3. Run `main` to reproduce our experiment. If success, the following contents will be printed:
     + **PC-16**: throughput of encryption;
